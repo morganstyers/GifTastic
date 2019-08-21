@@ -13,11 +13,17 @@
           <button data-person="anthony hopkins">
             hello clarice
           </button>
-        <button data-person="bill murray">
-          no one will believe you
+        <button data-person="wes anderson">
+          thats a loaded question
         </button>
-        <button data-person="christoph waltz">
-          au revior, soshanna 
+        <button data-person="quentin tarantino">
+          hot girls get revenge
+        </button>
+        <button data-person="cats">
+          meow meow
+        </button>
+        <button data-person="bumble bees">
+          hardest workers ever
         </button>
       </div>
     
@@ -25,19 +31,19 @@
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script type="text/javascript">
-        $("button").on("click", function() {//step 5
-          //step 1
+        $("button").on("click", function() {
           var person = $(this).attr("data-person");
+
           var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
             person + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
-           //step 2
+          
           $.ajax({
             url: queryURL,
             method: "GET"
           })
-            .then(function(response) {//promise return
+            .then(function(response) {
               var results = response.data;
-              //for loop for image results
+              
               for (var i = 0; i < results.length; i++) {
                 //space for gif
                 var gifDiv = $("<div>");

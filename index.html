@@ -10,19 +10,19 @@
 <body>
     <h1>GifTastic</h1>
     <div id="buttons">
-          <button q="anthony hopkins">
+          <button data-person="anthony hopkins">
             hello clarice
           </button>
-        <button q="wes anderson">
+        <button data-person="wes anderson">
           thats a loaded question
         </button>
-        <button q="quentin tarantino">
+        <button data-person="quentin tarantino">
           hot girls get revenge
         </button>
-        <button q="cats">
+        <button data-person="cats">
           meow meow
         </button>
-        <button q="bumble bees">
+        <button data-person="bumble bees">
           hardest workers ever
         </button>
       </div>
@@ -39,20 +39,16 @@
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script type="text/javascript">
-        var gifs=[]
-        
-          var q = $(this).attr("data-person");
+        $("button").on("click", function() {
+          var person = $(this).attr("data-person");
           var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            q + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ";
-        
-        $("#buttons").on("click", function(response) {
+            person + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
+          
           $.ajax({
             url: queryURL,
             method: "GET"
           })
             .then(function(response) {
-              //create response array
-
               var results = response.data;
               
               for (var i = 0; i < results.length; i++) {
@@ -63,18 +59,17 @@
                   //step3 
                 var p = $("<p>").text("Rating: " + rating);
                   //step 4
-                var qImage = $("<img>");
-                qImage.attr("src", results[i].images.fixed_height.url);
+                var personImage = $("<img>");
+                personImage.attr("src", results[i].images.fixed_height.url);
                   //4
                 gifDiv.prepend(p);//rating
-                gifDiv.prepend(qImage);
+                gifDiv.prepend(personImage);
                   //4
                 $("#gifs-appear-here").prepend(gifDiv);
               }
-            
             });
         });
-        
+        var gifs=[]
         function renderButton(){
           for (var x=0;x<gifs.length;x++){
             var b= $("<button>");
@@ -91,10 +86,7 @@
           renderButton();
         });
           
-        
-        $("#add-gifs #buttons").on("click",".gif-btn", displayGif());
         renderButton();
-        
       </script>
 </body>
 </html>

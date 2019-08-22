@@ -10,19 +10,19 @@
 <body>
     <h1>GifTastic</h1>
     <div id="buttons">
-          <button data-person="anthony hopkins">
+          <button q="anthony hopkins">
             hello clarice
           </button>
-        <button data-person="wes anderson">
+        <button q="wes anderson">
           thats a loaded question
         </button>
-        <button data-person="quentin tarantino">
+        <button q="quentin tarantino">
           hot girls get revenge
         </button>
-        <button data-person="cats">
+        <button q="cats">
           meow meow
         </button>
-        <button data-person="bumble bees">
+        <button q="bumble bees">
           hardest workers ever
         </button>
       </div>
@@ -39,17 +39,20 @@
       </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script type="text/javascript">
-        $("button").on("click", function() {
-          var person = $(this).attr("data-person");
-
+        var gifs=[]
+        
+          var q = $(this).attr("data-person");
           var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            person + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
-          
+            q + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ";
+        
+        $("#buttons").on("click", function(response) {
           $.ajax({
             url: queryURL,
             method: "GET"
           })
             .then(function(response) {
+              //create response array
+
               var results = response.data;
               
               for (var i = 0; i < results.length; i++) {
@@ -60,16 +63,38 @@
                   //step3 
                 var p = $("<p>").text("Rating: " + rating);
                   //step 4
-                var personImage = $("<img>");
-                personImage.attr("src", results[i].images.fixed_height.url);
+                var qImage = $("<img>");
+                qImage.attr("src", results[i].images.fixed_height.url);
                   //4
                 gifDiv.prepend(p);//rating
-                gifDiv.prepend(personImage);
+                gifDiv.prepend(qImage);
                   //4
                 $("#gifs-appear-here").prepend(gifDiv);
               }
+            
             });
         });
+        
+        function renderButton(){
+          for (var x=0;x<gifs.length;x++){
+            var b= $("<button>");
+            b.addClass("gif-btn");
+            b.attr("q",gifs[x]);
+            b.text(gifs[x]);
+            $("#buttons").append(b);
+          }
+        }
+        $("#add-gifs").on('click', function(event){
+          event.preventDefault();
+          var gif= $("#gifs-input").val().trim();
+          gifs.push(gif);
+          renderButton();
+        });
+          
+        
+        $("#add-gifs #buttons").on("click",".gif-btn", displayGif());
+        renderButton();
+        
       </script>
 </body>
 </html>

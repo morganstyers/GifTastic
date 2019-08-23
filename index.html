@@ -11,16 +11,16 @@
 
 <body>
   <div class="container">
-    <h1>Gifs? You're frick fraken right, Gifs.</h1> 
-   <div id="favs">
+    <h1>Gifs? You're frick fraken right, Gifs.</h1>
+    <div id="favs">
       <button>Your Favorite Gifs</button>
     </div>
- <br>
+    <br>
     <div id="buttons-view">
-      <button data-gif="anthony hopkins">
+      <button data-name="anthony hopkins">
         hello clarice
       </button>
-      <button data-gif="cats">
+      <button data-name="cats">
         meow meow
       </button>
 
@@ -35,51 +35,59 @@
     <div id="more-gifs">
       <button>see some more!</button>
     </div>
-   
 
-  <div id="gifs-view"></div>
+
+    <div id="gifs-view"></div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
-  var gifs = ["hello clarice", "meow meow"];
-    function displayGifs() {
-      var gif = $(this).attr("data-gif");
-      var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ&q=onclick&limit=10&offset=0&rating=G&lang=en";
     
-    $.ajax({
-      url: queryURL,
-      method: "GET"
-      
-    }).then(function (response) {
-      var gifImage = $("<img>");
-      gifImage.attr("src", displayGifs.gifs.queryURL);
-      gifImage.attr("alt", "gif image");
-      $("#gifs-view").prepend(gifImage);
-      
-    })
-    }
+    var gifs = [];
     function renderButtons() {
-      $("#buttons-view").empty();
-      for (var i = 0; i < gifs.length; i++) {
-        var b = $("<button>");
-        b.addClass("gif-btn");
-        b.attr("data-gif", gifs[i])
-        b.text(gifs[i]);
-        $("#buttons-view").append(b);
+     
+        for (var i = 0; i < gifs.length; i++) {
+          var b = $("<button>");
+          b.attr("data-name", gifs[i])
+          b.text(gifs[i]);
+          $("#buttons-view").append(b);
+        }
       }
-    }
-    $("#add-gifs").on('click', function (event) {
-      event.preventDefault();
-      var gif = $("#gifs-input").val().trim();
-      gifs.push(gif);
-      renderButtons();
-    })
 
-    $(document).on("click", ".gif-btn", displayGifs);
-    renderButtons();
+   
+    $("button").on("click", function () {
+
+      var name = $(this).attr("data-name");
+      var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + name + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ&limit=10";
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+
+      }).then(function (response) {
+        var results = response.data;
+        for (var i = 0; i < results.length; i++) {
+          var gifDiv = $("<div>");
+          var gifImage = $("<img>");
+          gifImage.attr("src", results[i].images.fixed_height.url);
+          gifDiv.prepend(gifImage);
+          $("#gifs-view").prepend(gifDiv);
+        }
+      }
+      )
+      });
+
+     
+      $("#add-gifs").on('click', function (event) {
+        event.preventDefault();
+        var gif = $("#gifs-input").val().trim();
+        gifs.push(gif);
+        renderButtons();
+      })
+      $(document).on("click", ".gif-btn", displayGifs);
+      renderButtons();
   </script>
-  
+
 </body>
 
 </html>

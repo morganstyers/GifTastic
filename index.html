@@ -1,92 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link type="text/css" href="assets/style.css">
-    <title>GifTastic</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link type="text/css" href="assets/style.css">
+  <title>GifTastic</title>
 </head>
+
 <body>
-    <h1>GifTastic</h1>
-    <div id="buttons">
-          <button data-person="anthony hopkins">
-            hello clarice
-          </button>
-        <button data-person="wes anderson">
-          thats a loaded question
-        </button>
-        <button data-person="quentin tarantino">
-          hot girls get revenge
-        </button>
-        <button data-person="cats">
-          meow meow
-        </button>
-        <button data-person="bumble bees">
-          hardest workers ever
-        </button>
-      </div>
-      <br>
-      <div id="search">
-           <form id="gifs-form">
-          <label for="gifs-input">Add GIFS:</label>
-          <input type="text" id="gifs-input">
-          <input id="add-gifs" type="submit" value="Search">
-        </form>
-        
-      </div>
-      <div id="gifs-appear-here">
-      </div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-      <script type="text/javascript">
-        $("button").on("click", function() {
-          var person = $(this).attr("data-person");
-          var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            person + "&api_key=BfLJEc48E3EcOPeX2HzszIZKj5NJOmt8";
-          
-          $.ajax({
-            url: queryURL,
-            method: "GET"
-          })
-            .then(function(response) {
-              var results = response.data;
-              
-              for (var i = 0; i < results.length; i++) {
-                //space for gif
-                var gifDiv = $("<div>");
-                //chooses image out of array
-                var rating = results[i].rating;
-                  //step3 
-                var p = $("<p>").text("Rating: " + rating);
-                  //step 4
-                var personImage = $("<img>");
-                personImage.attr("src", results[i].images.fixed_height.url);
-                  //4
-                gifDiv.prepend(p);//rating
-                gifDiv.prepend(personImage);
-                  //4
-                $("#gifs-appear-here").prepend(gifDiv);
-              }
-            });
-        });
-        var gifs=[]
-        function renderButton(){
-          for (var x=0;x<gifs.length;x++){
-            var b= $("<button>");
-            b.addClass("gif-btn");
-            b.attr("q",gifs[x]);
-            b.text(gifs[x]);
-            $("#buttons").append(b);
-          }
-        }
-        $("#add-gifs").on('click', function(event){
-          event.preventDefault();
-          var gif= $("#gifs-input").val().trim();
-          gifs.push(gif);
-          renderButton();
-        });
-          
-        renderButton();
-      </script>
+  <div class="container">
+    <h1>Gifs? You're frick fraken right, Gifs.</h1> 
+   <div id="favs">
+      <button>Your Favorite Gifs</button>
+    </div>
+ <br>
+    <div id="buttons-view">
+      <button data-gif="anthony hopkins">
+        hello clarice
+      </button>
+      <button data-gif="cats">
+        meow meow
+      </button>
+
+    </div>
+    <br>
+    <form id="gifs-form">
+      <label for="gifs-input">What do you wanna see?</label>
+      <input type="text" id="gifs-input">
+      <input id="add-gifs" type="submit" value="Search">
+    </form>
+    <br>
+    <div id="more-gifs">
+      <button>see some more!</button>
+    </div>
+   
+
+  <div id="gifs-view"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+  var gifs = ["hello clarice", "meow meow"];
+    function displayGifs() {
+      var gif = $(this).attr("data-gif");
+      var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ&q=onclick&limit=10&offset=0&rating=G&lang=en";
+    
+    $.ajax({
+      url: queryURL,
+      method: "GET"
+      
+    }).then(function (response) {
+      var gifImage = $("<img>");
+      gifImage.attr("src", displayGifs.gifs.queryURL);
+      gifImage.attr("alt", "gif image");
+      $("#gifs-view").prepend(gifImage);
+      
+    })
+    }
+    function renderButtons() {
+      $("#buttons-view").empty();
+      for (var i = 0; i < gifs.length; i++) {
+        var b = $("<button>");
+        b.addClass("gif-btn");
+        b.attr("data-gif", gifs[i])
+        b.text(gifs[i]);
+        $("#buttons-view").append(b);
+      }
+    }
+    $("#add-gifs").on('click', function (event) {
+      event.preventDefault();
+      var gif = $("#gifs-input").val().trim();
+      gifs.push(gif);
+      renderButtons();
+    })
+
+    $(document).on("click", ".gif-btn", displayGifs);
+    renderButtons();
+  </script>
+  
 </body>
+
 </html>

@@ -1,84 +1,111 @@
 <html>
+
 <head>
-	<title>GifTastic</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <title>GifTastic</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="./assets/style.css">
-  </head>
+</head>
+
 <body>
-
-<div class="container">
+  <br>
+  <div class="container">
     <div class="jumbotron text-white bg-dark">
-        <h1>Gifs</h1>
-    <br>
-    <div class="row">
+      <h1>Gifs</h1>
+      <br>
+      <div class="row">
         <div class="col-md-12" id="display-buttons"></div>
-    </div>
-<br>
-    <div class="row">
+      </div>
+      <br>
+      <div class="row">
         <div class="col-md-12">
-            <form id="form">
-                <label for="user-input"></label>
-                <input type="text" id="user-gif">
-                <input id="submit" type="submit" value="Submit" class="btn btn-light">
-            </form>
+          <form id="form">
+            <label for="user-input"></label>
+            <input type="text" id="user-gif">
+            <input id="submit" type="submit" value="Submit" class="btn btn btn-outline-light">
+          </form>
         </div>
+      </div>
     </div>
+
+    <div class="col-md-12" id="display-images"></div>
+
+
+
   </div>
-    <div class="row">
-        <div class="col-md-12" id="display-images"></div>
-    </div>
-
-
-</div>
-<script>
-$(document).ready(function(){
-    var buttons = ["Anthony Hopkins", "Cats", "Wes Anderson"];
-    function displayGif(){
+  <script>
+    $(document).ready(function () {
+      var buttons = ["Anthony Hopkins", "Cats", "Wes Anderson"];
+      function displayGif() {
         $("#display-images").empty();
         var input = $(this).attr("data-name");
         var limit = 10;
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + input + "&limit=" + limit + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ";   
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + input + "&limit=" + limit + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ";
         $.ajax({
-            url: queryURL, 
-            method: "GET"
-        }).then(function(response) {
-            for(var x = 0; x < limit; x++) {    
-                var displayGif = $("<div>");
-                displayGif.addClass("gif-btn");
-                var image = $("<img>");
-                image.attr("src", response.data[x].images.original_still.url);
-                image.attr("class", "gif");
-                displayGif.append(image);
-                var rating = response.data[x].rating;
-                var pRating = $("<p>").text("Rating: " + rating);
-                displayGif.append(pRating)
-                $("#display-images").append(displayGif);
-            }
+          url: queryURL,
+          method: "GET"
+        }).then(function (response) {
+          for (var x = 0; x < limit; x++) {
+            var displayGif = $("<div>");
+            displayGif.addClass("gif-btn");
+            var image = $("<img>");
+            image.attr("src", response.data[x].images.original_still.url);
+            image.attr("data-still", response.data[x].images.original_still.url);
+            image.attr("data-animate", response.data[x].images.original.url);
+            image.attr("data-state", "still");
+            image.attr("class", "gif");
+            displayGif.append(image);
+            var rating = response.data[x].rating;
+            var pRating = $("<p>").text("Rating: " + rating);
+            displayGif.append(pRating)
+            $("#display-images").append(displayGif);
+          }
         });
-    }
-    function renderButtons(){ 
+      }
+      function renderButtons() {
         $("#display-buttons").empty();
-        for (var i = 0; i < buttons.length; i++){
-            var newButton = $("<button>") 
-            newButton.attr("class", "btn btn-light");
-            newButton.attr("id", "gif-btn")  
-            newButton.attr("data-name", buttons[i]); 
-            newButton.text(buttons[i]); 
-            $("#display-buttons").append(newButton); 
+        for (var i = 0; i < buttons.length; i++) {
+          var newButton = $("<button>")
+          newButton.attr("class", " btn btn-outline-light");
+          newButton.attr("id", "gif-btn")
+          newButton.attr("data-name", buttons[i]);
+          newButton.text(buttons[i]);
+          $("#display-buttons").append(newButton);
         }
-    }
+      }
 
-    $("#submit").on("click", function(){
-      event.preventDefault();
+      $("#submit").on("click", function () {
+        event.preventDefault();
         var input = $("#user-gif").val().trim();
         form.reset();
         buttons.push(input);
         renderButtons();
         return false;
-    })
-    renderButtons();
-    $(document).on("click", "#gif-btn", displayGif);
-});
-</script>
+      })
+
+      function move() {
+
+        var state = $(this).attr("data-state");
+        var animate = $(this).attr("data-animate");
+        var still = $(this).attr("data-still");
+
+        if (state == "still") {
+          $(this).attr("src", animate);
+          $(this).attr("data-state", "animate");
+        }
+
+        else{
+          $(this).attr("src", still);
+          $(this).attr("data-state", "still");
+        }
+      }
+      renderButtons();
+      $(document).on("click", "#gif-btn", displayGif);
+      $(document).on("click", ".gif", move);
+    });
+  </script>
 </body>
+
 </html>

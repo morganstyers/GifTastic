@@ -3,12 +3,13 @@
 	<title>GifTastic</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="./assets/style.css">
+  </head>
 <body>
 
 <div class="container">
     <div class="jumbotron">
         <h1>Gifs? You're frickin right</h1>
-    </div>
+    
     <div class="row">
         <div class="col-md-12" id="display-buttons"></div>
     </div>
@@ -22,13 +23,13 @@
             </form>
         </div>
     </div>
-
+  </div>
     <div class="row">
         <div class="col-md-12" id="display-images"></div>
     </div>
 
-</div>    
 
+</div>
 <script>
 $(document).ready(function(){
 
@@ -44,7 +45,7 @@ $(document).ready(function(){
         $.ajax({
             url: queryURL, 
             method: "GET"
-        }).done(function(response) {
+        }).then(function(response) {
 
             for(var x = 0; x < limit; x++) {    
 

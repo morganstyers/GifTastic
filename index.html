@@ -7,19 +7,19 @@
 <body>
 
 <div class="container">
-    <div class="jumbotron">
-        <h1>Gifs? You're frickin right</h1>
-    
+    <div class="jumbotron bg-dark">
+        <h1>Gifs</h1>
+    <br>
     <div class="row">
         <div class="col-md-12" id="display-buttons"></div>
     </div>
-
+<br>
     <div class="row">
         <div class="col-md-12">
             <form id="form">
                 <label for="user-input"></label>
                 <input type="text" id="user-gif">
-                <input id="submit" type="submit" value="Submit" class="btn btn-default">
+                <input id="submit" type="submit" value="Submit" class="btn btn-light">
             </form>
         </div>
     </div>
@@ -32,23 +32,17 @@
 </div>
 <script>
 $(document).ready(function(){
-
     var buttons = ["Anthony Hopkins", "Cats", "Wes Anderson"];
-
     function displayGif(){
-
         $("#display-images").empty();
         var input = $(this).attr("data-name");
         var limit = 10;
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + input + "&limit=" + limit + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ";   
-
         $.ajax({
             url: queryURL, 
             method: "GET"
         }).then(function(response) {
-
             for(var x = 0; x < limit; x++) {    
-
                 var displayGif = $("<div>");
                 displayGif.addClass("gif-btn");
             
@@ -56,46 +50,34 @@ $(document).ready(function(){
                 image.attr("src", response.data[x].images.original_still.url);
                 image.attr("class", "gif");
                 displayGif.append(image);
-
                 var rating = response.data[x].rating;
                 var pRating = $("<p>").text("Rating: " + rating);
                 displayGif.append(pRating)
-
                 $("#display-images").append(displayGif);
             }
         });
     }
-
     function renderButtons(){ 
-
         $("#display-buttons").empty();
-
         for (var i = 0; i < buttons.length; i++){
-
             var newButton = $("<button>") 
-            newButton.attr("class", "btn btn-default");
+            newButton.attr("class", "btn btn-light");
             newButton.attr("id", "gif-btn")  
             newButton.attr("data-name", buttons[i]); 
             newButton.text(buttons[i]); 
             $("#display-buttons").append(newButton); 
         }
     }
-
     $("#submit").on("click", function(){
-
+      event.preventDefault();
         var input = $("#user-gif").val().trim();
         form.reset();
         buttons.push(input);
-                
         renderButtons();
-
         return false;
     })
-
     renderButtons();
-
     $(document).on("click", "#gif-btn", displayGif);
-
 });
 </script>
 </body>

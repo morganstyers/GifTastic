@@ -46,7 +46,7 @@ $(document).ready(function(){
                 var displayGif = $("<div>");
                 displayGif.addClass("gif-btn");
                 var image = $("<img>");
-                image.attr("src", response.data[x].images.original.url);
+                image.attr("src", response.data[x].images.original_still.url);
                 image.attr("class", "gif");
                 displayGif.append(image);
                 var rating = response.data[x].rating;

@@ -1,19 +1,21 @@
 <html>
 
 <head>
-  <title>GifTastic</title>
+  <title>GifTastic || Morgan Styers</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="./assets/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico|Satisfy&display=swap" rel="stylesheet">
 </head>
-
 <body>
   <br>
   <div class="container">
     <div class="jumbotron text-white bg-dark">
-      <h1>Gifs</h1>
+      <br>
+      <h1>GifTastic</h1>
+      <img src="./assets/images/rockingwithlights10.png">
       <br>
       <div class="row">
         <div class="col-md-12" id="display-buttons"></div>
@@ -29,15 +31,11 @@
         </div>
       </div>
     </div>
-
     <div class="col-md-12" id="display-images"></div>
-
-
-
   </div>
   <script>
     $(document).ready(function () {
-      var buttons = ["Blink","Catbug","Hello Clarice", "Sleepy Kittens", "Life Aquatic"];
+      var buttons = ["Blink", "Catbug", "Hello Clarice", "Sleepy Kittens", "Life Aquatic"];
       function displayGif() {
         $("#display-images").empty();
         var input = $(this).attr("data-name");
@@ -96,7 +94,7 @@
           $(this).attr("data-state", "animate");
         }
 
-        else{
+        else {
           $(this).attr("src", still);
           $(this).attr("data-state", "still");
         }

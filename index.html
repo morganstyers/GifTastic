@@ -60,7 +60,7 @@
             var rating = response.data[x].rating;
             var pRating = $("<p>").text("Rating: " + rating);
             displayGif.append(pRating)
-            $("#display-images").append(displayGif);
+            $("#display-images").prepend(displayGif);
           }
         });
       }

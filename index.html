@@ -40,7 +40,6 @@
     $(document).ready(function () {
       var buttons = ["Blink", "Catbug", "Hello Clarice", "Sleepy Kittens", "Life Aquatic"];
       function displayGif() {
-        $("#display-images").empty();
         var input = $(this).attr("data-name");
         var limit = 10;
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + input + "&limit=" + limit + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ";

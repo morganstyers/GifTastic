@@ -35,13 +35,13 @@
     <div class="col-md-12" id="display-images"></div>
   </div>
 </div>
-<!---still need to make gifs load on top of one another, add favorites -->
+
   <script>
     $(document).ready(function () {
       var buttons = ["Blink", "Catbug", "Hello Clarice", "Sleepy Kittens", "Life Aquatic"];
       function displayGif() {
         var input = $(this).attr("data-name");
-        var limit = 10;
+        var limit = 20;
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + input + "&limit=" + limit + "&api_key=B2kfUvLPgmUxUB2QYTYA3NxTPO5olhEJ";
         $.ajax({
           url: queryURL,
